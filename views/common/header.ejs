@@ -1,0 +1,23 @@
+<div class="layout-header">
+   <div class="span">
+      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+      <a href="/" class="yhm"><%= nickName %></a> &nbsp;&nbsp;&nbsp;&nbsp;<i>欢迎您！</i>
+      <span class="layui-icon layui-icon-face-smile"></span>
+      <span class="layui-icon layui-icon-face-smile"></span>
+      <span class="layui-icon layui-icon-face-smile"></span>
+      <em class="tit"></em>
+   </div> 
+   <button class="layui-btn">退出</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+   $('.layui-btn').click(function () {
+      location.href = "/login.html";
+   })
+
+//    $('.slide-ul li').on('click', 'a', function () {
+//     $(this).addClass("on").siblings().removeClass("on");
+//     var t = $(this).html();
+//     $('.tit').html(t);
+//   })
+</script>

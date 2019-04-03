@@ -1,0 +1,25 @@
+<div class="layout-slide">
+  <ul class="slide-ul">
+    <% if (isAdmin){ %>
+    <li>
+      <a href="/users.html">用户管理</a>
+    </li>
+    <% } %>
+
+    <li>
+      <a href="/goods.html">商品管理</a>
+    </li>
+    <li>
+      <a href="/order.html">订单管理</a>
+    </li>
+  </ul>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  // $('.slide-ul').on('click', 'li', function () {
+  //   $(this).addClass("on").siblings().removeClass("on");
+  //   var t = $(this).html();
+  //   $('.tit').attr('t');
+  // })
+</script>
