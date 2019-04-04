@@ -15,10 +15,11 @@ router.post('/add',(req,res)=>{
 
     order
         .save()
-        .then(()=>{
+        .then((data)=>{
             res.json({
                 code:0,
-                msg:"ok"
+                msg:"ok",
+                id:data._id
             })
         })
         .catch((err)=>{
@@ -152,21 +153,20 @@ router.post('/update1',(req,res)=>{
     })
 })
 
-// 判断订单是否发送 - http://localhost:3000/order/send
-router.post('/send', (req, res) => {
-
-    // 1. 得到前端传递过来的参数
+/// 修改order中的isShow http://localhost:3000/order/update2
+router.post('/update2',(req,res)=>{
     let id = req.body.id;
-    // let isShow = req.query.isShow;
-    OrderModel.findOne({
-        _id:id,
-        // isShow
-    }).then(data=>{
-        console.log(data)
+
+    OrderModel.update({
+        _id:id
+    },{
+        $set:{
+            isShow: req.body.isShow
+        }
+    }).then(()=>{
         res.json({
             code: 0,
-            msg: 'ok',
-            isShow: data
+            msg: 'ok'
         })
     }).catch(err=>{
         res.json({

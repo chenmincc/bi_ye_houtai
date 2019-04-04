@@ -105,10 +105,9 @@
       },function(res){
           // console.log( res.dataName)
         //   console.log( res)
-          _this.dom.updateName.val(res.name)
-          _this.dom.updateName1.val(res.address)
-          _this.dom.updateName2.val(res.phone)
-
+        _this.dom.updateName.val(res.name)
+        _this.dom.updateName1.val(res.address)
+        _this.dom.updateName2.val(res.phone)
       })
   }
 
@@ -140,6 +139,36 @@
           _this.dom.updateName1.val('');
           _this.dom.updateName2.val('');
       })
+  }
+
+//   发送的方法
+  Order.prototype.sending = function (id) {
+    var _this = this;
+    var id = id;
+    var isShow = true;
+    // alert('序号为  ' + id + '  的订单已发货');
+    $.post('/order/update1',{
+        id:id
+    },function(res){
+      $.post('/order/update', {
+        id,
+        name:res.name,
+        address:res.address,
+        phone:res.phone,
+        isShow: isShow
+        }, function (res) {
+            if (res.code === 0) {
+                layer.msg('序号为  ' + id + '  的订单已发货');
+                // 请求一下数据
+                setTimeout(function () {
+                    _this.search()
+                },1000)
+            } else {
+                layer.msg('网络异常，请稍后重试');
+            }
+        })
+    })
+
   }
 
   // 渲染table
@@ -254,7 +283,7 @@
      this.dom.table.on('click','.send',function () {
         // 1.得到id
         var id = $(this).data('id');
-        alert('序号为  ' + id + '  的订单已发货')
+        _this.sending(id);
       })
 
 
