@@ -21,9 +21,41 @@ router.get('/goods.html',userCheck,(req,res)=>{
 })
 
 
-// //films 页面
-// router.get('/films.html',userCheck,(req,res)=>{
-//     res.render('films',{
+//cook 页面
+router.get('/cook.html',userCheck,(req,res)=>{
+    res.render('cook',{
+        nickName:req.cookies.nickName,
+        isAdmin:Number(req.cookies.isAdmin)
+    });
+})
+
+// makeup 页面
+router.get('/makeup.html',userCheck,(req,res)=>{
+    res.render('makeup',{
+        nickName:req.cookies.nickName,
+        isAdmin:Number(req.cookies.isAdmin)
+    });
+})
+
+//food 页面
+// router.get('/food.html',userCheck,(req,res)=>{
+//     res.render('food',{
+//         nickName:req.cookies.nickName,
+//         isAdmin:Number(req.cookies.isAdmin)
+//     });
+// })
+
+//cloth 页面
+// router.get('/cloth.html',userCheck,(req,res)=>{
+//     res.render('cloth',{
+//         nickName:req.cookies.nickName,
+//         isAdmin:Number(req.cookies.isAdmin)
+//     });
+// })
+
+//life 页面
+// router.get('/life.html',userCheck,(req,res)=>{
+//     res.render('life',{
 //         nickName:req.cookies.nickName,
 //         isAdmin:Number(req.cookies.isAdmin)
 //     });

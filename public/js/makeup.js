@@ -1,38 +1,46 @@
 (function () {
 
   //定义这个文件操作的构造函数
-  var Order = function () {
+  var Makeup = function () {
       //  定义这个页面需要的一些数据
       this.pageNum = 1;
       this.pageSize = 2;
       this.totalPage = 0;
-      this.orderList = [];//数据
+      this.bannerList = [];//数据
 
       // 需要用到的 dom 对象  性能优化 -dom缓存
       this.dom = {
-          table: $('.order-table tbody'),
-          nameInput: $('#addName'),
-          nameInput1: $('#addName1'),
-          nameInput2: $('#addName2'),
+          table: $('.banner-table tbody'),
+          nameInput: $('#input1'),
+          nameInput1: $('#input2'),
+          nameInput2: $('#input3'),
+          nameInput3: $('#input4'),
+          nameInput4: $('#input5'),
           pagination: $('.pagination'),    // 分页的ul
           addModal: $('#addModal'),//新增模态框
-          submitAdd: $('#orderAdd'),//确认添加按钮
-          updateName: $('#upName'),
-          updateName1: $('#upName1'),
-          updateName2: $('#upName2'),
+          submitAdd: $('#bannerAdd'),//确认添加按钮
+          updateName: $('#update1'),
+          updateName1: $('#update2'),
+          updateName2: $('#update3'),
+          updateName3: $('#update4'),
+          updateName4: $('#update5'),
           updateModal: $('#updateModal'),
-          submitUpdate: $('#orderUpdate'),
+          submitUpdate: $('#bannerUpdate'),
 
       }
   }
 
   // 新增的方法add
-  Order.prototype.add = function () {
+  Makeup.prototype.add = function () {
       var _this = this;
-      $.post('/order/add', {
-          name: this.dom.nameInput.val(),
-          address: this.dom.nameInput1.val(),
-          phone:this.dom.nameInput2.val()
+      $.post('/makeup/add', {
+          head: this.dom.nameInput.val(),
+          title: this.dom.nameInput1.val(),
+          klj:this.dom.nameInput3.val(),
+          del:this.dom.nameInput4.val(),
+          img0: this.dom.nameInput2.val(),
+
+
       }, function (res) {
           if (res.code == 0) {
               layer.msg('添加成功');
@@ -48,21 +56,23 @@
           _this.dom.nameInput.val('');
           _this.dom.nameInput1.val('');
           _this.dom.nameInput2.val('');
+          _this.dom.nameInput3.val('');
+          _this.dom.nameInput4.val('');
       });
   }
 
   // 查询的方法search
-  Order.prototype.search = function () {
+  Makeup.prototype.search = function () {
       var _this = this;
-      $.get('/order/search', {
+      $.get('/makeup/search', {
           pageNum: this.pageNum,
           pageSize: this.pageSize
       }, function (res) {
           if (res.code == 0) {
               layer.msg('查询成功');
 
-              // 将res.data写入到实例的orderList
-              _this.orderList = res.data;
+              // 将res.data写入到实例的bannerList
+              _this.bannerList = res.data;
               // 将res.totalPage写入到实例的totalPage
               _this.totalPage = res.totalPage;
 
@@ -81,9 +91,9 @@
   }
 
   //删除的方法
-  Order.prototype.delete = function (id) {
+  Makeup.prototype.delete = function (id) {
       var id = id;
-      $.post('/order/delete', {
+      $.post('/makeup/delete', {
           id: id
       }, function (res) {
           if (res.code === 0) {
@@ -96,32 +106,35 @@
   }
 
     //修改时携带原有数据
-    Order.prototype.getData = function (id) {
+    Makeup.prototype.getData = function (id) {
       var _this = this;
       var id = id;
-    //   console.log(id)
-      $.post('/order/update1',{
+      console.log(id)
+      $.post('/makeup/update1',{
           id:id
       },function(res){
-          // console.log( res.dataName)
-        //   console.log( res)
-        _this.dom.updateName.val(res.name)
-        _this.dom.updateName1.val(res.address)
-        _this.dom.updateName2.val(res.phone)
+          _this.dom.updateName.val(res.head)
+          _this.dom.updateName1.val(res.title)
+          _this.dom.updateName2.val(res.img0)
+          _this.dom.updateName3.val(res.klj)
+          _this.dom.updateName4.val(res.del)
+
       })
   }
 
 
   //修改的方法
-  Order.prototype.update = function (id) {
+  Makeup.prototype.update = function (id) {
       var _this = this;
       var id = id;
       console.log(id)
-      $.post('/order/update', {
+      $.post('/makeup/update', {
           id: id,
-          name: this.dom.updateName.val(),
-          address: this.dom.updateName1.val(),
-          phone:this.dom.updateName2.val(),
+          head: this.dom.updateName.val(),
+          title: this.dom.updateName1.val(),
+          img0:this.dom.updateName2.val(),
+          klj:this.dom.updateName3.val(),
+          del:this.dom.updateName4.val(),
       }, function (res) {
           if (res.code === 0) {
               layer.msg('修改成功');
@@ -138,54 +151,28 @@
           _this.dom.updateName.val('');
           _this.dom.updateName1.val('');
           _this.dom.updateName2.val('');
+          _this.dom.updateName3.val('');
+          _this.dom.updateName4.val('');
       })
   }
 
-//   发送的方法
-  Order.prototype.sending = function (id) {
-    var _this = this;
-    var id = id;
-    var isShow = true;
-    // alert('序号为  ' + id + '  的订单已发货');
-    $.post('/order/update1',{
-        id:id
-    },function(res){
-      $.post('/order/update', {
-        id,
-        name:res.name,
-        address:res.address,
-        phone:res.phone,
-        isShow: isShow
-        }, function (res) {
-            if (res.code === 0) {
-                layer.msg('序号为  ' + id + '  的订单已发货');
-                // 请求一下数据
-                // setTimeout(function () {
-                //     _this.search()
-                // },1000)
-            } else {
-                layer.msg('网络异常，请稍后重试');
-            }
-        })
-    })
-
-  }
-
   // 渲染table
-  Order.prototype.renderTable = function () {
+  Makeup.prototype.renderTable = function () {
       //清空
       this.dom.table.html('');
-      for (var i = 0; i < this.orderList.length; i++) {
+      for (var i = 0; i < this.bannerList.length; i++) {
           this.dom.table.append(
               `
               <tr>
-                  <td>${this.orderList[i]._id}</td>
-                  <td>${this.orderList[i].name}</td>
-                  <td>${this.orderList[i].address}</td>
-                  <td>${this.orderList[i].phone}</td>
+                  <td>${this.bannerList[i]._id}</td>
+                  <td>${this.bannerList[i].head}</td>
+                  <td>${this.bannerList[i].title}</td>
+                  <td>${this.bannerList[i].img0}</td>
+                  <td>${this.bannerList[i].klj}</td>
+                  <td>${this.bannerList[i].del}</td>
                   <td>
-                  <a href="javascript:;" class="delete" data-id="${this.orderList[i]._id}">删除</a>&nbsp;&nbsp;&nbsp;
-                  <button type="button" class="btn btn-primary btn-lg update" data-toggle="modal" data-target="#updateModal" data-id="${this.orderList[i]._id}" >修改</button>&nbsp;&nbsp;&nbsp;<button data-id="${this.orderList[i]._id}" class="send">发货</button>
+                  <a href="javascript:;" class="delete" data-id="${this.bannerList[i]._id}">删除</a>
+                  <button type="button" class="btn btn-primary btn-lg update" data-toggle="modal" data-target="#updateModal" data-id="${this.bannerList[i]._id}" >修改</button>
                   </td>
               </tr>
               `
@@ -195,7 +182,7 @@
   }
 
   //渲染分页
-  Order.prototype.renderPage = function () {
+  Makeup.prototype.renderPage = function () {
       var prevClassName = this.pageNum === 1 ? 'disabled' : '';
       var nextClassName = this.pageNum === this.totalPage ? 'disabled' : '';
       // 0 清空
@@ -238,7 +225,7 @@
 
 
   //将所有的dom事件的操作放在这里
-  Order.prototype.bindDOM = function () {
+  Makeup.prototype.bindDOM = function () {
       var _this = this;
       //点击新增按钮需要调用add
       this.dom.submitAdd.click(function () {
@@ -277,15 +264,7 @@
       },function () {
        console.log('取消');
       })
-    })
-
-     // 发送按钮
-     this.dom.table.on('click','.send',function () {
-        // 1.得到id
-        var id = $(this).data('id');
-        _this.sending(id);
-      })
-
+  })
 
       //修改按钮
       this.dom.table.on('click', '.update', function () {
@@ -327,9 +306,9 @@
 
   // 最后
   $(function () {
-      var order = new Order();
-      order.bindDOM();
-      order.search();//默认渲染第一页
+      var makeup = new Makeup();
+      makeup.bindDOM();
+      makeup.search();//默认渲染第一页
   })
 
 })()
