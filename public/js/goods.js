@@ -11,7 +11,8 @@
       // 需要用到的 dom 对象  性能优化 -dom缓存
       this.dom = {
           table: $('.banner-table tbody'),
-          nameInput: $('#inputEmail3'),
+          nameInput: $('#inputEmail2'),
+          nameInput0: $('#inputEmail3'),
           nameInput1: $('#inputEmail4'),
           nameInput2: $('#inputEmail5'),
           nameInput3: $('#inputEmail6'),
@@ -28,6 +29,7 @@
           addModal: $('#addModal'),//新增模态框
           submitAdd: $('#bannerAdd'),//确认添加按钮
           updateName: $('#updateName'),
+          updateName0: $('#updateName0'),
           updateName1: $('#updateName1'),
           updateName2: $('#updateName2'),
           updateName3: $('#updateName3'),
@@ -50,11 +52,12 @@
   Goods.prototype.add = function () {
       var _this = this;
       $.post('/goods/add', {
-          location1: this.dom.nameInput.val(),
-          location2: this.dom.nameInput1.val(),
-          location3:this.dom.nameInput2.val(),
-          em:this.dom.nameInput3.val(),
-          h2:this.dom.nameInput4.val(),
+          category: this.dom.nameInput.val(),
+          title: this.dom.nameInput0.val(),
+          name: this.dom.nameInput1.val(),
+          shortName:this.dom.nameInput2.val(),
+          briefIntroduction:this.dom.nameInput3.val(),
+          introduction:this.dom.nameInput4.val(),
           klj:this.dom.nameInput5.val(),
           del:this.dom.nameInput6.val(),
           img0: this.dom.urlInput.val(),
@@ -77,6 +80,7 @@
           _this.dom.addModal.modal('hide')
           // 手动清空输入框的内容
           _this.dom.nameInput.val('');
+          _this.dom.nameInput0.val('');
           _this.dom.nameInput1.val('');
           _this.dom.nameInput2.val('');
           _this.dom.nameInput3.val('');
@@ -146,11 +150,12 @@
       },function(res){
           // console.log( res.dataName)
           // console.log( res.dataImg)
-          _this.dom.updateName.val(res.location1)
-          _this.dom.updateName1.val(res.location2)
-          _this.dom.updateName2.val(res.location3)
-          _this.dom.updateName3.val(res.em)
-          _this.dom.updateName4.val(res.h2)
+          _this.dom.updateName.val(res.category)
+          _this.dom.updateName0.val(res.title)
+          _this.dom.updateName1.val(res.name)
+          _this.dom.updateName2.val(res.shortName)
+          _this.dom.updateName3.val(res.briefIntroduction)
+          _this.dom.updateName4.val(res.introduction)
           _this.dom.updateName5.val(res.klj)
           _this.dom.updateName6.val(res.del)
           _this.dom.updateImg.val(res.img0);
@@ -172,11 +177,12 @@
       console.log(id)
       $.post('/goods/update', {
           id: id,
-          location1: this.dom.updateName.val(),
-          location2: this.dom.updateName1.val(),
-          location3:this.dom.updateName2.val(),
-          em:this.dom.updateName3.val(),
-          h2:this.dom.updateName4.val(),
+          category: this.dom.updateName.val(),
+          title: this.dom.updateName0.val(),
+          name:this.dom.updateName1.val(),
+          shortName:this.dom.updateName2.val(),
+          briefIntroduction:this.dom.updateName3.val(),
+          introduction:this.dom.updateName4.val(),
           klj:this.dom.updateName5.val(),
           del:this.dom.nameInput6.val(),
           img0: this.dom.updateImg.val(),
@@ -200,6 +206,7 @@
           _this.dom.updateModal.modal('hide')
           // 手动清空输入框的内容
           _this.dom.updateName.val('');
+          _this.dom.updateName0.val('');
           _this.dom.updateName1.val('');
           _this.dom.updateName2.val('');
           _this.dom.updateName3.val('');
@@ -224,11 +231,12 @@
               `
               <tr>
                   <td>${this.bannerList[i]._id}</td>
-                  <td>${this.bannerList[i].location1}</td>
-                  <td>${this.bannerList[i].location2}</td>
-                  <td>${this.bannerList[i].location3}</td>
-                  <td>${this.bannerList[i].em}</td>
-                  <td>${this.bannerList[i].h2}</td>
+                  <td>${this.bannerList[i].category}</td>
+                  <td>${this.bannerList[i].title}</td>
+                  <td>${this.bannerList[i].name}</td>
+                  <td>${this.bannerList[i].shortName}</td>
+                  <td>${this.bannerList[i].briefIntroduction}</td>
+                  <td>${this.bannerList[i].introduction}</td>
                   <td>${this.bannerList[i].img0}</td>
                   <td>${this.bannerList[i].imgbig}</td>
                   <td>${this.bannerList[i].img1}</td>

@@ -4,8 +4,8 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const indexRouter = require('./routes/index');
-const CookRouter = require('./routes/cook');
-const MakeupRouter = require('./routes/makeup');
+// const CookRouter = require('./routes/cook');
+// const MakeupRouter = require('./routes/makeup');
 const goodsRouter = require('./routes/goods');
 const orderRouter = require('./routes/order');
 const userRouter = require('./routes/user');
@@ -27,8 +27,8 @@ app.use(function (req,res,next) {
 })
 
 app.use('/',indexRouter);
-app.use('/cook',CookRouter);
-app.use('/makeup',MakeupRouter);
+// app.use('/cook',CookRouter);
+// app.use('/makeup',MakeupRouter);
 app.use('/goods',goodsRouter);
 app.use('/order',orderRouter);
 app.use('/user',userRouter);

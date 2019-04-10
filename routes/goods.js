@@ -7,17 +7,18 @@ const async = require('async');
 // 添加goods  - http://localhost:3000/goods/add
 router.post('/add',(req,res)=>{
     var goods = new GoodsModel({
-        location1: req.body.location1,
-        location2: req.body.location2,
-        location3: req.body.location3,
+        category: req.body.category,
+        title: req.body.title,
+        name: req.body.name,
+        shortName: req.body.shortName,
+        briefIntroduction: req.body.briefIntroduction,
+        introduction: req.body.introduction,
         img0: req.body.img0,
         imgbig: req.body.imgbig,
         img1: req.body.img1,
         img2: req.body.img2,
         img3: req.body.img3,
         img4: req.body.img4,
-        em: req.body.em,
-        h2: req.body.h2,
         klj: req.body.klj,
         del: req.body.del
     });
@@ -117,17 +118,18 @@ router.post('/update',(req,res)=>{
         _id:id
     },{
         $set:{
-            location1: req.body.location1,
-            location2: req.body.location2,
-            location3: req.body.location3,
+            category: req.body.category,
+            title: req.body.title,
+            name: req.body.name,
+            shortName: req.body.shortName,
+            briefIntroduction: req.body.briefIntroduction,
+            introduction: req.body.introduction,
             img0: req.body.img0,
             imgbig: req.body.imgbig,
             img1: req.body.img1,
             img2: req.body.img2,
             img3: req.body.img3,
             img4: req.body.img4,
-            em: req.body.em,
-            h2: req.body.h2,
             klj: req.body.klj,
             del: req.body.del
         }
@@ -157,17 +159,18 @@ router.post('/update1',(req,res)=>{
         res.json({
             code: 0,
             msg: 'ok',
-            location1: data.location1,
-            location2: data.location2,
-            location3: data.location3,
+            category: data.category,
+            title: data.title,
+            name: data.name,
+            shortName: data.shortName,
+            briefIntroduction: data.briefIntroduction,
+            introduction: data.introduction,
             img0: data.img0,
             imgbig: data.imgbig,
             img1: data.img1,
             img2: data.img2,
             img3: data.img3,
             img4: data.img4,
-            em: data.em,
-            h2: data.h2,
             klj: data.klj,
             del: data.del
         })
@@ -179,6 +182,68 @@ router.post('/update1',(req,res)=>{
     })
 })
 
+// 分类查询
+// http://localhost:3000/goods/searchCategory
+router.post('/searchCategory',(req,res)=>{
+    let category = req.body.category;
+
+    GoodsModel.find({
+        category:category
+    }).then(data=>{
+        console.log(data)
+        res.json({
+            code: 0,
+            msg: 'ok',
+            data:data
+        })
+    }).catch(err=>{
+        res.json({
+            code: -1,
+            msg: err.message
+        })
+    })
+})
+// 简称查询 http://localhost:3000/goods/searchShortName
+router.post('/searchShortName',(req,res)=>{
+    let shortName = req.body.shortName;
+
+    GoodsModel.find({
+        shortName:shortName
+    }).then(data=>{
+        console.log(data)
+        res.json({
+            code: 0,
+            msg: 'ok',
+            data: data
+        })
+    }).catch(err=>{
+        res.json({
+            code: -1,
+            msg: err.message
+        })
+    })
+})
+
+// 模糊查询 http://localhost:3000/goods/searchName
+router.post('/searchName',(req,res)=>{
+    let name = req.body.name;
+
+    GoodsModel.find({
+        name:{$regex:name}
+    }).then(data=>{
+        console.log(data)
+        res.json({
+            code: 0,
+            msg: 'ok',
+            data: data
+        })
+    }).catch(err=>{
+        res.json({
+            code: -1,
+            msg: err.message
+        })
+    })
+})
 module.exports = router;
 
 

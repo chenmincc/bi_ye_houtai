@@ -22,20 +22,20 @@ router.get('/goods.html',userCheck,(req,res)=>{
 
 
 //cook 页面
-router.get('/cook.html',userCheck,(req,res)=>{
-    res.render('cook',{
-        nickName:req.cookies.nickName,
-        isAdmin:Number(req.cookies.isAdmin)
-    });
-})
+// router.get('/cook.html',userCheck,(req,res)=>{
+//     res.render('cook',{
+//         nickName:req.cookies.nickName,
+//         isAdmin:Number(req.cookies.isAdmin)
+//     });
+// })
 
 // makeup 页面
-router.get('/makeup.html',userCheck,(req,res)=>{
-    res.render('makeup',{
-        nickName:req.cookies.nickName,
-        isAdmin:Number(req.cookies.isAdmin)
-    });
-})
+// router.get('/makeup.html',userCheck,(req,res)=>{
+//     res.render('makeup',{
+//         nickName:req.cookies.nickName,
+//         isAdmin:Number(req.cookies.isAdmin)
+//     });
+// })
 
 //food 页面
 // router.get('/food.html',userCheck,(req,res)=>{
